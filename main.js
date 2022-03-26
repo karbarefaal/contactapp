@@ -1,5 +1,7 @@
 const yargs = require('yargs');
+//const chalk = require('chalk');
 
+const {addContact,listContacts,removeContact} = require('./contacts');
 
 yargs.command({
     command:"create",
@@ -26,9 +28,36 @@ yargs.command({
         },
     },
     handler({fullname,phone,email}){
-        console.log(fullname,phone,email);
+        addContact(fullname,phone,email);
     }
 });
+
+yargs.command({
+    command: "list",
+    aliases: "l",
+    describe: `$"[listing the saved contacts]"}`,
+    handler(){
+        listContacts();
+    }
+});
+
+
+yargs.command({
+    command: "remove",
+    aliases: "r",
+    describe: `${"[remove contact]"}`,
+    builder: {
+        fullname: {
+            alias: "f",
+            describe: "person fullname",
+            demandOption: "true",
+            type: "string"
+        }
+    },
+    handler({fullname}){
+        removeContact(fullname);
+    }
+})
 
 // console.log(process.argv);
 // console.log('-----------------------');
